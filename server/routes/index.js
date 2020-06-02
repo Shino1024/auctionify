@@ -31,7 +31,7 @@ router.get('/login', (req, res, next) => {
   })(req, res, next)
 })
 
-router.get('/add', (req, res, next) => {
+router.get('/addAuction', (req, res, next) => {
   ConnectEnsureLogin.ensureLoggedIn()
   const body = res.body;
   const title = body.title
@@ -46,13 +46,14 @@ router.get('/add', (req, res, next) => {
     startDate: startDate,
     endDate: endDate
   })
-  newUserModel.save((error, document) => {
+  newUserModel.save((error) => {
     if (error) {
-      res.send({
+      res.status(404).send({
         error: error
       })
+    } else {
+      res.status(200).send({})
     }
-    //
   })
 })
 
@@ -61,8 +62,12 @@ router.get('/changePrice', (req, res, next) => {
   const body = res.body;
   const auctionID = body.auctionID
   const newPrice = body.price
-  AppModels.Auction.findOne({
+  AppModels.Auction.update({
     ID: auctionID
+  }, {
+    $set: {
+      price: newPrice
+    }
   })
 })
 
@@ -70,19 +75,22 @@ router.get('/updateAuction', (req, res, next) => {
   ConnectEnsureLogin.ensureLoggedIn()
   const body = req.body
   const auctionID = body.auctionID
+  const newAuctionData = body.newAuctionData
   AppModels.Auction.update({
     auctionID: auctionID
   }, {
-    //
+    $set: newAuctionData
   })
 })
 
-render.get('/makeBid', (req, res, next) => {
+router.get('/makeBid', (req, res, next) => {
   ConnectEnsureLogin.ensureLoggedIn()
   const body = req.body
   const auctionID = body.auctionID
+  const bidMakerID = body.bidMakerID
+  const newPrice = body.newPrice
   AppModels.Auction.update({
-    //
+    auctionID: auctionID
   })
 })
 

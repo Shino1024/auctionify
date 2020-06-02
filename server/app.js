@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const socket = require('socket.io')
 const http = require('http')
 import passport from 'passport'
+import BodyParser from 'body-parser'
 import ConnectEnsureLogin from 'connect-ensure-login'
 import PassportLocal from 'passport-local'
 
@@ -31,6 +32,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(BodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
@@ -59,7 +61,7 @@ app.use(function(err, req, res, next) {
 app.get(
     '/login',
     passport.authenticate('local', {
-      failuteReditect: '/login'
+      failureRedirect: '/login'
     }),
     (req, res) => {
       //
@@ -71,13 +73,13 @@ const io = socket(server)
 
 io.on("connection", (socket) => {
   console.log("Incoming connection")
-  socket.on('createChat', (data) => {
-    const sender = data.login;
-    const receiver = data.receiver;
-    const roomID = data.roomID
-    socket.join(roomID)
-    AppModels.Message.add()
-  })
+  // socket.on('createChat', (data) => {
+  //   const sender = data.login;
+  //   const receiver = data.receiver;
+  //   const roomID = data.roomID
+  //   socket.join(roomID)
+  //   AppModels.Message.add()
+  // })
   socket.on('sendMessage', (id, data) => {
     const sender = data.login;
     const receiver = data.receiver;
@@ -89,11 +91,6 @@ io.on("connection", (socket) => {
       receiver: receiver,
       message: message
     })
-    // socket.broadcast.to(id).emit('getMessage', {
-    //   login: sender,
-    //   receiver: receiver,
-    //   message: message
-    // })
   })
   socket.on('getMessages', (data) => {
     const username = data.username
@@ -101,10 +98,12 @@ io.on("connection", (socket) => {
       username: username,
       read: false
     }, (error, documents) => {
-      //
+      for (const document of documents) {
+        //
+      }
     })
-    rooms.filter((element) => data.user1 === element.user1 || data.user1 === element.user2)
-    socket.emit()
+    // rooms.filter((element) => data.user1 === element.user1 || data.user1 === element.user2)
+    // socket.emit()
   })
   socket.on('messagesHaveBeenRead', (data) => {
     const username = data.username
@@ -117,6 +116,17 @@ io.on("connection", (socket) => {
       messageID: messageID
     }, {
       read: true
+    })
+  })
+  socket.on('makeBid', (data) => {
+    const auctionID = data.auctionID
+    const newPrice = data.newPrice
+    AppModels.Message.update({
+      ID: auctionID
+    }, {
+      $set: {
+        price: newPrice
+      }
     })
   })
 });

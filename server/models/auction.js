@@ -36,6 +36,10 @@ const AuctionSchema = mongoose.Schema({
     highestBidHolder: {
         type: String,
         required: false
+    },
+    ID: {
+        type: String,
+        required: true
     }
 })
 
