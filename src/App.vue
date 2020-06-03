@@ -36,7 +36,7 @@
             'all-auctions-view': AllAuctionsView,
             'auction-view': AuctionView,
             'chat-view': ChatView,
-            'chats-view': ChatsView
+            'chats-view': ChatsView,
             'main-view': MainView,
             'profile-view': ProfileView,
             'user-auctions-view': UserAuctionsView

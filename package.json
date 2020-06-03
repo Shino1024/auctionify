@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start-server": "node ./bin/www"
+    "start-server": "node ./bin/www",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "bufferutil": "~4.0.1",
@@ -21,12 +24,36 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.4.1",
+    "@vue/cli-plugin-eslint": "^4.4.1",
+    "@vue/cli-service": "^4.4.1",
+    "babel-eslint": "^10.1.0",
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
     "cors": "^2.8.5",
+    "eslint": "^7.1.0",
+    "eslint-plugin-vue": "^6.2.2",
     "mongoose": "^5.9.16",
+    "node-sass": "^4.14.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
-    "vue-cli": "^2.9.6"
+    "sass-loader": "^8.0.2",
+    "vue-cli": "^2.9.6",
+    "vue-router": "^3.3.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
   }
 }
