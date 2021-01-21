@@ -20,7 +20,7 @@
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
     "scss": "^0.2.4",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
